@@ -1,0 +1,16 @@
+{
+  "name": "spot-mapper",
+  "version": "1.0.0",
+  "description": "for use with the spot gen3 tracker for hiking and other longer voyages",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "request": "^2.72.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
