@@ -4,7 +4,7 @@ const request = require('request');
 const Point = require('../models/points.js');
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/where_Is_Sark');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/where_Is_Sark');
 
 var getPoints = () => {
 	request.get('https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/0qyLXAX1l0neorapAYdqS0pnuDtThqtS4/latest.json', function(error, response, body){
@@ -13,7 +13,7 @@ var getPoints = () => {
 		var messageId = parsedBody.response.feedMessageResponse.messages.message.id;
 		var latitude = parsedBody.response.feedMessageResponse.messages.message.latitude;
 		var longitude = parsedBody.response.feedMessageResponse.messages.message.longitude;
-		console.log('POINT ID', messageId);
+		console.log('FROM WORKER: POINT ID', messageId);
 		console.log(parsedBody.response.feedMessageResponse.messages.message.latitude)
 		console.log(parsedBody.response.feedMessageResponse.messages.message.longitude)
 		//find one and update the previous point if not new
