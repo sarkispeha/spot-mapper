@@ -1,4 +1,5 @@
 'use strict'
+
 const Point = require('../models/points.js');
 
 const api = {
@@ -9,10 +10,13 @@ const api = {
 			console.log('this is the save to db err: ', err);
 			res.send(result);
 		})
-
 	}
-
-
+	// getAllPoints: function(req, res){
+	// 	Point.find({}, (err, results)=>{
+	// 		console.log('point find err ', err);
+	// 		res.send(results);
+	// 	})
+	// }
 }
 
 module.exports =  api;
