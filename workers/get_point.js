@@ -4,7 +4,7 @@ const request = require('request');
 const Point = require('../models/points.js');
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/where_Is_Sark');
+// mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/where_Is_Sark');
 
 var getPoints = () => {
 	request.get('https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/0qyLXAX1l0neorapAYdqS0pnuDtThqtS4/latest.json', function(error, response, body){
