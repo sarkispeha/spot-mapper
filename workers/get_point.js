@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/where_Is_Sark');
 
 var getPoints = () => {
+	console.log('WORKER IS FIRING TO SPOT API');
 	request.get('https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/0qyLXAX1l0neorapAYdqS0pnuDtThqtS4/latest.json', function(error, response, body){
 		// console.log('this is the body from first request', body);
 		var parsedBody = JSON.parse(body)
