@@ -19,5 +19,9 @@ app.get('/', indexController.allPoints);
 app.get('/api/lastPoint', apiController.getLastPoint);
 
 
-console.log(new Date(), 'Listening on 8888');
-app.listen(8888);
+// console.log(new Date(), 'Listening on 8888');
+// app.listen(8888);
+var port = process.env.PORT || 8888;
+var server = app.listen(port, function() {
+	console.log('Express server listening on port ' + server.address().port);
+});
