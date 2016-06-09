@@ -10,6 +10,13 @@ const api = {
 			console.log('this is the save to db err: ', err);
 			res.send(result);
 		})
+	},
+	getLastPoint: (req, res)=>{
+		Point.findOne().sort({created_at: -1}).exec(function(err, result){
+			console.log('Last point find err ', err);
+			console.log(result)
+			res.send(result);
+		})
 	}
 	// getAllPoints: function(req, res){
 	// 	Point.find({}, (err, results)=>{
