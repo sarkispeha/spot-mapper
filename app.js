@@ -12,7 +12,7 @@ app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/public'))
 
 //connect to DB
-// mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/where_Is_Sark');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/where_Is_Sark');
 
 //routes
 app.get('/', indexController.allPoints);
