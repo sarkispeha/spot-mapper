@@ -5,6 +5,7 @@ html(lang='en')
 		link(rel="stylesheet", type='text/css', href='styles/base.css')
 	body
 		h1 howdy peeps
+		button#findSark Find Sark
 		#map
 		script.
 			var data = !{JSON.stringify(data)};
@@ -34,5 +35,26 @@ html(lang='en')
 				});
 
 				trackPath.setMap(map);
-			}
+
+				function smoothZoom (map, max, cnt) {
+					if (cnt >= max) {
+						return;
+					}
+					else {
+						z = google.maps.event.addListener(map, 'zoom_changed', function(event){
+							google.maps.event.removeListener(z);
+							smoothZoom(map, max, cnt + 1);
+						});
+						setTimeout(function(){map.setZoom(cnt)}, 100);
+					}
+				}
+				
+				var findSarkButton = document.getElementById('findSark');
+				findSarkButton.addEventListener('click', function(event){
+					map.setCenter(lastCoordinate);
+					smoothZoom(map, 17, map.getZoom());
+				});
+
+			}//end initMap
+
 		script(async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDA7wQGap3Amizz3yvTwdsic5hgTZAPpZ8&callback=initMap")
