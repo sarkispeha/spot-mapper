@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const apiController = require('./controllers/api.js');
 const indexController = require('./controllers/indexController.js');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 var app = express();
 app.set('view engine', 'pug');
