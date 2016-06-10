@@ -7,6 +7,7 @@ html(lang='en')
 		h1 howdy peeps
 		button#findSark Find Sark
 		#map
+		script(type='text/javascript' src='/scripts/mithril.min.js')
 		script.
 			var data = !{JSON.stringify(data)};
 			console.log(data);
@@ -17,16 +18,18 @@ html(lang='en')
 				pathCoordinates.push({lat : track.lat, lng : track.long});
 			});
 
-			var lastCoordinate = {lat: data[data.length-1].lat , lng : data[data.length-1].long}
+			var lastCoordinate = {lat: data[data.length-1].lat , lng : data[data.length-1].long, message_id : data[data.length-1].message_id}
 
 			var map;
+			var marker;
+			var trackPath;
 			function initMap() {
 				map = new google.maps.Map(document.getElementById('map'), {
 					//- center: {lat: 39.8275062, lng: -98.5810004}, //center of the USA
 					center: lastCoordinate,
 					zoom: 5
 				});
-				var trackPath = new google.maps.Polyline({
+				trackPath = new google.maps.Polyline({
 					path: pathCoordinates,
 					geodesic: true,
 					strokeColor: '#FF0000',
@@ -34,8 +37,13 @@ html(lang='en')
 					strokeWeight: 2
 				});
 
+				marker = new google.maps.Marker({
+					map: map, 
+					position: new google.maps.LatLng(lastCoordinate)
+				});
 				trackPath.setMap(map);
 
+				//http://stackoverflow.com/questions/4752340/how-to-zoom-in-smoothly-on-a-marker-in-google-maps
 				function smoothZoom (map, max, cnt) {
 					if (cnt >= max) {
 						return;
@@ -45,10 +53,10 @@ html(lang='en')
 							google.maps.event.removeListener(z);
 							smoothZoom(map, max, cnt + 1);
 						});
-						setTimeout(function(){map.setZoom(cnt)}, 100);
+						setTimeout(function(){map.setZoom(cnt)}, 90);
 					}
 				}
-				
+
 				var findSarkButton = document.getElementById('findSark');
 				findSarkButton.addEventListener('click', function(event){
 					map.setCenter(lastCoordinate);
@@ -56,5 +64,51 @@ html(lang='en')
 				});
 
 			}//end initMap
+			function newPosition(){
+				var newPath = trackPath.getPath()
+				var point = m.prop([])
+				var domain = window.location.origin;
+				m.request({
+					method : 'GET',
+					url: domain+'/api/lastPoint',
+					unwrapSuccess: function(response) {
+						return response;
+					},
+					unwrapError: function(response) {
+						console.log(response.error)
+						return response.error;
+					}
+				})
+				.then(point)
+				.then(function(){
+					console.log('point', point());
+					console.log('lastCoordinate', lastCoordinate)
+					if (point().message_id !== lastCoordinate.message_id){
+						lastCoordinate = {lat: point().lat , lng : point().long, message_id : point().message_id}
+						//- var newPoint = {lat: point().lat , lng : point().long};
+						//- console.log('lastCoordinate', lastCoordinate);
+						pathCoordinates.push(lastCoordinate)
+						console.log('pathCoordinates',pathCoordinates)
+						//- newPath.push(newPoint)
+						trackPath = new google.maps.Polyline({
+							path: pathCoordinates,
+							geodesic: true,
+							strokeColor: '#FF0000',
+							strokeOpacity: 1.0,
+							strokeWeight: 2
+						});
+						trackPath.setMap(map);
+						marker.setPosition(lastCoordinate)
+					}else{
+						console.info('no change in last coordinate')
+					}
+					//- return point();
+				})
+			}
+
+			setInterval(function() {
+				newPosition();
+			}, 5000);
 
 		script(async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDA7wQGap3Amizz3yvTwdsic5hgTZAPpZ8&callback=initMap")
+				

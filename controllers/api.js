@@ -12,9 +12,10 @@ const api = {
 		})
 	},
 	getLastPoint: (req, res)=>{
-		Point.findOne().sort({created_at: -1}).exec(function(err, result){
+		Point.findOne().sort({ field: 'asc', _id: -1 }).limit(1).exec(function(err, result){
+		// Point.findOne({}).sort({created_at: -1}).exec(function(err, result){
 			console.log('Last point find err ', err);
-			console.log(result)
+			console.log('this is the result from the getLastPoint API', result)
 			res.send(result);
 		})
 	}

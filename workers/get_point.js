@@ -14,13 +14,15 @@ var getPoints = () => {
 		var messageId = parsedBody.response.feedMessageResponse.messages.message.id;
 		var latitude = parsedBody.response.feedMessageResponse.messages.message.latitude;
 		var longitude = parsedBody.response.feedMessageResponse.messages.message.longitude;
+		var created_at = parsedBody.response.feedMessageResponse.messages.message.dateTime.split('').splice(0,19).join('');
 		console.log('FROM WORKER: POINT ID', messageId);
 		console.log(parsedBody.response.feedMessageResponse.messages.message.latitude)
 		console.log(parsedBody.response.feedMessageResponse.messages.message.longitude)
+		console.log(created_at)
 		//find one and update the previous point if not new
 		Point.findOneAndUpdate(
 			{message_id: messageId},
-			{message_id: messageId, long: longitude, lat: latitude},
+			{message_id: messageId, long: longitude, lat: latitude, created_at : created_at},
 			{upsert: true, new: true}
 		).exec()
 	})
