@@ -27,7 +27,8 @@ html(lang='en')
 				map = new google.maps.Map(document.getElementById('map'), {
 					//- center: {lat: 39.8275062, lng: -98.5810004}, //center of the USA
 					center: lastCoordinate,
-					zoom: 5
+					zoom: 5,
+					mapTypeId: google.maps.MapTypeId.HYBRID
 				});
 				trackPath = new google.maps.Polyline({
 					path: pathCoordinates,
@@ -81,9 +82,10 @@ html(lang='en')
 				})
 				.then(point)
 				.then(function(){
-					console.log('point', point());
-					console.log('lastCoordinate', lastCoordinate)
 					if (point().message_id !== lastCoordinate.message_id){
+						console.warn('NEW COORDINATE')
+						console.log('point', point());
+						console.log('lastCoordinate', lastCoordinate)
 						lastCoordinate = {lat: point().lat , lng : point().long, message_id : point().message_id}
 						//- var newPoint = {lat: point().lat , lng : point().long};
 						//- console.log('lastCoordinate', lastCoordinate);
@@ -108,7 +110,7 @@ html(lang='en')
 
 			setInterval(function() {
 				newPosition();
-			}, 60000);
+			}, 180000);
 
 		script(async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDA7wQGap3Amizz3yvTwdsic5hgTZAPpZ8&callback=initMap")
 				

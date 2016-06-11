@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/where_Is_Sark');
 
 var getPoints = () => {
-	console.log('WORKER IS FIRING TO SPOT API');
+	console.log('WORKER IS FIRING TO SPOT API', new Date());
 	request.get('https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/0qyLXAX1l0neorapAYdqS0pnuDtThqtS4/latest.json', function(error, response, body){
 		// console.log('this is the body from first request', body);
 		var parsedBody = JSON.parse(body)
@@ -16,9 +16,7 @@ var getPoints = () => {
 		var longitude = parsedBody.response.feedMessageResponse.messages.message.longitude;
 		var created_at = parsedBody.response.feedMessageResponse.messages.message.dateTime.split('').splice(0,19).join('');
 		console.log('FROM WORKER: POINT ID', messageId);
-		console.log(parsedBody.response.feedMessageResponse.messages.message.latitude)
-		console.log(parsedBody.response.feedMessageResponse.messages.message.longitude)
-		console.log(created_at)
+		console.log('lat: ', latitude, 'long :', longitude, 'created_at :', created_at)
 		//find one and update the previous point if not new
 		Point.findOneAndUpdate(
 			{message_id: messageId},
