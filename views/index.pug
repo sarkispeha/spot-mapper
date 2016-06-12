@@ -3,6 +3,7 @@ html(lang='en')
 	head
 		title Where is Sark?
 		link(rel="stylesheet", type='text/css', href='styles/base.css')
+		meta(name="viewport", content="width=device-width, initial-scale=1")
 	body
 		h1 Where is Sark?
 		button#findSark Find Sark
@@ -110,7 +111,7 @@ html(lang='en')
 
 			setInterval(function() {
 				newPosition();
-			}, 180000);
+			}, 300000);
 
 		script(async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDA7wQGap3Amizz3yvTwdsic5hgTZAPpZ8&callback=initMap")
 				

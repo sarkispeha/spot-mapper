@@ -2,3 +2,9 @@
 	height: 1000px;
 	width: 1000px;
 }
+@media (max-width:420px){
+	#map{
+		width: 350px;
+		height: 500px;
+	}
+}
