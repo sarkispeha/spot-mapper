@@ -18,6 +18,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/where_Is_Sark')
 //routes
 app.get('/', indexController.allPoints);
 app.get('/api/lastPoint', apiController.getLastPoint);
+app.get('/api/getAllPoints', apiController.getAllPoints);
 
 
 // console.log(new Date(), 'Listening on 8888');

@@ -8,6 +8,8 @@ html(lang='en')
 		h1 Where is Sark?
 		button#findSark Find Sark
 		#map
+		p Created with the SPOT Gen3 Tracker, Node, MongoDB, and the Google Maps API.
+		a(href='https://github.com/sarkispeha/spot-mapper') Github repo
 		script(type='text/javascript' src='/scripts/mithril.min.js')
 		script.
 			var data = !{JSON.stringify(data)};
@@ -62,7 +64,7 @@ html(lang='en')
 				var findSarkButton = document.getElementById('findSark');
 				findSarkButton.addEventListener('click', function(event){
 					map.setCenter(lastCoordinate);
-					smoothZoom(map, 17, map.getZoom());
+					smoothZoom(map, 14, map.getZoom());
 				});
 
 			}//end initMap

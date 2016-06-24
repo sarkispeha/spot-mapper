@@ -18,13 +18,13 @@ const api = {
 			console.log('this is the result from the getLastPoint API', result)
 			res.send(result);
 		})
+	},
+	getAllPoints: function(req, res){
+		Point.find({}, (err, results)=>{
+			console.log('point find err ', err);
+			res.send(results);
+		})
 	}
-	// getAllPoints: function(req, res){
-	// 	Point.find({}, (err, results)=>{
-	// 		console.log('point find err ', err);
-	// 		res.send(results);
-	// 	})
-	// }
 }
 
 module.exports =  api;
